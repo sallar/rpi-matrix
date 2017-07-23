@@ -16,5 +16,5 @@ export function start() {
   // Run programme at 60fps
   setInterval(() => {
     __render(runner());
-  }, 1000 / 2);
+  }, 1000 / 60);
 }
