@@ -9,8 +9,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: '[name].js',
-    libraryTarget: 'commonjs2'
+    filename: '[name].js'
   },
   devServer: {
     contentBase: './dist'
@@ -33,5 +32,7 @@ module.exports = {
       chunks: ['web']
     })
   ],
-  externals: ['node-rpi-rgb-led-matrix']
+  externals: {
+    'node-rpi-rgb-led-matrix': 'require("node-rpi-rgb-led-matrix")'
+  }
 };

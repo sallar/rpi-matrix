@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const Merge = require('webpack-merge');
+const WrapperPlugin = require('wrapper-webpack-plugin');
 const commonConfig = require('./webpack.config');
 
 module.exports = Merge(commonConfig, {
@@ -13,6 +14,10 @@ module.exports = Merge(commonConfig, {
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }
+    }),
+    new WrapperPlugin({
+      test: /^rpi.js$/,
+      header: '#!/usr/bin/env node\n'
     })
   ]
 });

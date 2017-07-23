@@ -1,0 +1,13 @@
+[Unit]
+Description=Raspberry Pi Matrix
+
+[Service]
+ExecStart=/home/pi/rpi/rpi.js
+Restart=always
+User=root
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=NODE_ENV=production
+WorkingDirectory=/home/pi/rpi/
+
+[Install]
+WantedBy=multi-user.target

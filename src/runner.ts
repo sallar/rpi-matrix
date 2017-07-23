@@ -13,6 +13,8 @@ export function setRenderer(fn: IRenderer) {
 }
 
 export function start() {
-  store.write('Hello!', font, '#ff0000');
+  store.write('Sherry', font, '#ff0000');
+
+  setInterval(() => __render(store.matrix), 1000 / 60); // 60fps
   __render(store.matrix);
 }
