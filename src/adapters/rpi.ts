@@ -1,10 +1,6 @@
 import { IMatrix } from 'led-matrix';
 import { setRenderer, start } from '../runner';
 
-// Create the canvas
-const canvas = document.createElement('canvas');
-document.body.appendChild(canvas);
-
 // Create the simulator
 const LedMatrix = require('node-rpi-rgb-led-matrix');
 const led = new LedMatrix(16);
