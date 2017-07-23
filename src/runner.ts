@@ -1,5 +1,5 @@
 import { IMatrix, Store } from 'led-matrix';
-import { font } from './fonts/5x5';
+import { runner } from './views/clock';
 
 // Noop
 type IRenderer = (data: IMatrix) => void;
@@ -13,8 +13,8 @@ export function setRenderer(fn: IRenderer) {
 }
 
 export function start() {
-  store.write('Sherry', font, '#ff0000');
-
-  setInterval(() => __render(store.matrix), 1000 / 60); // 60fps
-  __render(store.matrix);
+  // Run programme at 60fps
+  setInterval(() => {
+    __render(runner());
+  }, 1000 / 60);
 }
