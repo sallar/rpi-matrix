@@ -1,5 +1,5 @@
 import { IMatrix, Store } from 'led-matrix';
-import { runner } from './views/clock';
+import { setup, loop } from './views/clock';
 
 // Noop
 type IRenderer = (data: IMatrix) => void;
@@ -13,8 +13,7 @@ export function setRenderer(fn: IRenderer) {
 }
 
 export function start() {
-  // Run programme at 60fps
-  setInterval(() => {
-    __render(runner());
-  }, 1000 / 60);
+  setup().then(function __loop() {
+    loop().then(matrix => __render(matrix)).then(__loop);
+  });
 }

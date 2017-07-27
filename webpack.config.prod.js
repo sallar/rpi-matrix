@@ -5,6 +5,7 @@ const commonConfig = require('./webpack.config');
 
 module.exports = Merge(commonConfig, {
   devtool: false,
+  target: 'node',
   plugins: [
     new webpack.LoaderOptionsPlugin({
       minimize: true,
