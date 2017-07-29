@@ -9,7 +9,7 @@ const ms = require('ms');
 const image = require('../images/partly-cloudy-day.png');
 
 const url =
-  'http://api.wunderground.com/api/5e062647a3fbbb9a/conditions/q/FI/Espoo.json';
+  'http://api.openweathermap.org/data/2.5/weather?q=Espoo,FI&APPID=146c256a087c40880291650a75386da2&units=metric';
 const store = new Store(32, 16);
 let __image: number[][] = [];
 let __sequence = 0;
@@ -44,7 +44,7 @@ function drawSequence(store: Store, x: number, y: number, sequence = 0) {
 function setWeather() {
   return fetch(url).then(res => res.json()).then((res: any) => {
     console.log('setting weather', res);
-    cache.put('weather', res.current_observation, ms('10m'));
+    cache.put('weather', res, ms('10m'));
   });
 }
 
@@ -68,7 +68,8 @@ export async function loop(): Promise<IMatrix> {
   store.write(15, 2, date, TomThumb, 1, Color.hex('#FFFFFF'));
 
   if (weather) {
-    store.write(18, 8, weather.feelslike_c, TomThumb, 1, Color.rgba(0, 255, 0));
+    const temp = `${weather.main.temp}°`;
+    store.write(21, 8, temp, TomThumb, 1, Color.rgba(0, 255, 0));
   }
 
   await delay(200);
