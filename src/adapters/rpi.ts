@@ -1,5 +1,14 @@
 import { IMatrix } from 'led-matrix';
-import { setRenderer, start } from '../runner';
+import { setRenderer, start, nextView } from '../runner';
+
+const rpio = require('rpio');
+const pin = 37;
+rpio.open(pin, rpio.INPUT, rpio.PULL_UP);
+rpio.poll(pin, (cbpin: any) => {
+  if (!rpio.read(cbpin)) {
+    nextView();
+  }
+});
 
 // Create the simulator
 const LedMatrix = require('node-rpi-rgb-led-matrix');

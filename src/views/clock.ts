@@ -13,6 +13,7 @@ const url =
 const store = new Store(32, 16);
 let __image: number[][] = [];
 let __sequence = 0;
+let __weatherTimer: any;
 
 function readImage(): Promise<any> {
   return new Promise((resolve, reject) => {
@@ -50,17 +51,22 @@ function setWeather() {
 
 export async function setup(): Promise<void> {
   setWeather();
-  setInterval(setWeather, ms('5m'));
+  __weatherTimer = setInterval(setWeather, ms('5m'));
   await readImage();
 }
 
-export async function loop(): Promise<IMatrix> {
+export async function teardown(): Promise<void> {
+  clearInterval(__weatherTimer);
+}
+
+export function loop(): IMatrix {
   const date = new Date().toString().substring(16, 21);
   const weather = cache.get('weather');
 
   store.fillScreen(null);
 
   drawSequence(store, -1, 0, __sequence++);
+
   if (__sequence >= 32) {
     __sequence = 0;
   }
@@ -72,7 +78,7 @@ export async function loop(): Promise<IMatrix> {
     store.write(21, 8, temp, TomThumb, 1, Color.rgba(0, 255, 0));
   }
 
-  await delay(200);
-
   return store.matrix;
 }
+
+export const fps = 5;

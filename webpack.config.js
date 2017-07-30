@@ -44,6 +44,7 @@ module.exports = {
     })
   ],
   externals: {
-    'node-rpi-rgb-led-matrix': 'require("node-rpi-rgb-led-matrix")'
+    'node-rpi-rgb-led-matrix': 'require("node-rpi-rgb-led-matrix")',
+    rpio: 'require("rpio")'
   }
 };
