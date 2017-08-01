@@ -1,8 +1,8 @@
 import { IMatrix, Store, Color, TomThumb } from 'led-matrix';
 import * as cache from 'memory-cache';
 import * as fetch from 'isomorphic-fetch';
-import * as _ from 'lodash';
 import { delay } from '../utils';
+import chunk = require('lodash/chunk');
 
 const getPixels = require('get-pixels');
 const ms = require('ms');
@@ -21,7 +21,7 @@ function readImage(): Promise<any> {
       if (err) {
         return reject(err);
       }
-      __image = _.chunk(pixels.data, 4);
+      __image = chunk(pixels.data, 4);
       resolve();
     });
   });

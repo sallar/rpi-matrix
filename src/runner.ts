@@ -33,7 +33,7 @@ export function start() {
   });
 }
 
-export async function nextView() {
+export async function nextView(): Promise<void> {
   const currentView = views[__currentView];
   if (currentView.teardown) {
     await currentView.teardown();
