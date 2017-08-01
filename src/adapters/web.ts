@@ -1,5 +1,6 @@
 import { StyleSheet, css } from 'aphrodite';
 import { LedMatrix, IMatrix } from 'led-matrix';
+import debounce = require('lodash/debounce');
 import { setRenderer, start, nextView } from '../runner';
 
 // Styles
@@ -35,7 +36,7 @@ canvas.className = css(styles.canvas);
 const button = document.createElement('button');
 button.className = css(styles.button);
 button.innerHTML = 'MODE';
-button.addEventListener('click', () => nextView());
+button.addEventListener('click', debounce(() => nextView(), 200));
 
 // Attach
 document.body.appendChild(canvas);
