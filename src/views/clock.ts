@@ -6,7 +6,14 @@ import chunk = require('lodash/chunk');
 
 const getPixels = require('get-pixels');
 const ms = require('ms');
-const image = require('../images/01d.png');
+
+// Read Images
+const context = (require as any).context('../images/weather', true, /.png$/);
+const __images: any = {};
+context.keys().forEach((key: any) => {
+  const name = (key as string).substr(2, 3);
+  __images[name] = context(key);
+});
 
 const url =
   'http://api.openweathermap.org/data/2.5/weather?q=Espoo,FI&APPID=146c256a087c40880291650a75386da2&units=metric';
@@ -15,28 +22,39 @@ let __image: number[][] = [];
 let __sequence = 0;
 let __weatherTimer: any;
 
-const ANIM_FRAMES = 16;
+const ANIM_FRAMES = 32;
 const ANIM_WIDTH = 16;
 const ANIM_HEIGHT = 16;
 
 function readImage(): Promise<any> {
-  return new Promise((resolve, reject) => {
-    getPixels(image, (err: any, pixels: any) => {
-      if (err) {
-        return reject(err);
-      }
-      __image = chunk(pixels.data, 4);
-      resolve();
-    });
-  });
+  return Promise.all(
+    Object.keys(__images).map(key => {
+      return new Promise((resolve, reject) => {
+        getPixels(__images[key], (err: any, pixels: any) => {
+          if (err) {
+            return reject(err);
+          }
+          __images[key] = chunk(pixels.data, 4);
+          resolve();
+        });
+      });
+    })
+  );
 }
 
-function drawSequence(store: Store, x: number, y: number, sequence = 0) {
+function drawSequence(
+  name: string,
+  store: Store,
+  x: number,
+  y: number,
+  sequence = 0
+) {
+  const image = name in __images ? __images[name] : __images.err;
   for (let xx = 0; xx < ANIM_WIDTH; xx++) {
     for (let yy = 0; yy < ANIM_HEIGHT; yy++) {
       const dx = sequence * ANIM_WIDTH + xx;
       const dy = yy;
-      const [r, g, b, a]: number[] = __image[
+      const [r, g, b, a]: number[] = image[
         dy * (ANIM_WIDTH * ANIM_FRAMES) + dx
       ];
       if (r || g || b) {
@@ -69,7 +87,7 @@ export function loop(): IMatrix {
 
   store.fillScreen(null);
 
-  drawSequence(store, -1, 0, __sequence++);
+  drawSequence(weather.weather[0].icon, store, -1, 0, __sequence++);
 
   if (__sequence >= ANIM_FRAMES) {
     __sequence = 0;
@@ -85,4 +103,4 @@ export function loop(): IMatrix {
   return store.matrix;
 }
 
-export const fps = 5;
+export const fps = 4;
