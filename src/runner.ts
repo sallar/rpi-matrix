@@ -1,6 +1,6 @@
 import { IMatrix, Store } from 'led-matrix';
 import * as clock from './views/clock';
-import * as test from './views/test';
+import * as bus from './views/bus';
 
 interface View {
   setup: () => Promise<any>;
@@ -9,8 +9,8 @@ interface View {
   fps: number;
 }
 
-const views: View[] = [clock, test];
-let __currentView = 0;
+const views: View[] = [clock, bus];
+let __currentView = 1;
 let __currentLoop: any;
 
 // Noop
@@ -27,6 +27,7 @@ export function setRenderer(fn: IRenderer) {
 export function start() {
   const view = views[__currentView];
   view.setup().then(() => {
+    __render(view.loop());
     __currentLoop = setInterval(() => {
       __render(view.loop());
     }, 1000 / view.fps);

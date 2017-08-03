@@ -87,17 +87,16 @@ export function loop(): IMatrix {
 
   store.fillScreen(null);
 
-  drawSequence(weather.weather[0].icon, store, -1, 0, __sequence++);
-
-  if (__sequence >= ANIM_FRAMES) {
-    __sequence = 0;
-  }
-
   store.write(15, 2, date, TomThumb, 1, Color.hex('#FFFFFF'));
 
   if (weather) {
     const temp = `${weather.main.temp}°`;
     store.write(15, 8, temp, TomThumb, 1, Color.rgba(0, 255, 0));
+
+    drawSequence(weather.weather[0].icon, store, -1, 0, __sequence++);
+    if (__sequence >= ANIM_FRAMES) {
+      __sequence = 0;
+    }
   }
 
   return store.matrix;
