@@ -24,6 +24,7 @@
     "aphrodite": "^1.2.3",
     "file-loader": "^0.11.2",
     "get-pixels": "^3.3.0",
+    "graphql-fetch": "^1.0.1",
     "html-webpack-plugin": "^2.29.0",
     "isomorphic-fetch": "^2.2.1",
     "led-matrix": "^0.2.1",
