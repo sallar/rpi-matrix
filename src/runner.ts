@@ -10,7 +10,7 @@ interface View {
 }
 
 const views: View[] = [clock, bus];
-let __currentView = 1;
+let __currentView = 0;
 let __currentLoop: any;
 
 // Noop
@@ -35,6 +35,7 @@ export function start() {
 }
 
 export async function nextView(): Promise<void> {
+  console.log('calling next shit');
   const currentView = views[__currentView];
   if (currentView.teardown) {
     await currentView.teardown();

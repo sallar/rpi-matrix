@@ -30,6 +30,9 @@ function readImage(): Promise<any> {
   return Promise.all(
     Object.keys(__images).map(key => {
       return new Promise((resolve, reject) => {
+        if (Array.isArray(__images[key])) {
+          return resolve();
+        }
         getPixels(__images[key], (err: any, pixels: any) => {
           if (err) {
             return reject(err);
@@ -66,7 +69,6 @@ function drawSequence(
 
 function setWeather() {
   return fetch(url).then(res => res.json()).then((res: any) => {
-    console.log('setting weather', res);
     cache.put('weather', res, ms('10m'));
   });
 }
@@ -86,7 +88,6 @@ export function loop(): IMatrix {
   const weather = cache.get('weather');
 
   store.fillScreen(null);
-
   store.write(15, 2, date, TomThumb, 1, Color.hex('#FFFFFF'));
 
   if (weather) {

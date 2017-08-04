@@ -1,13 +1,12 @@
 import { IMatrix } from 'led-matrix';
 import { setRenderer, start, nextView } from '../runner';
-import debounce = require('lodash/debounce');
 
 const rpio = require('rpio');
 const pin = 37;
 rpio.open(pin, rpio.INPUT, rpio.PULL_UP);
 rpio.poll(pin, (cbpin: any) => {
   if (!rpio.read(cbpin)) {
-    debounce(() => nextView(), 200);
+    nextView();
   }
 });
 
