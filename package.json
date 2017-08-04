@@ -27,7 +27,7 @@
     "graphql-fetch": "^1.0.1",
     "html-webpack-plugin": "^2.29.0",
     "isomorphic-fetch": "^2.2.1",
-    "led-matrix": "^0.2.1",
+    "led-matrix": "^0.3.0",
     "lodash": "^4.17.4",
     "memory-cache": "^0.2.0",
     "ms": "^2.0.0",

@@ -35,7 +35,6 @@ export function start() {
 }
 
 export async function nextView(): Promise<void> {
-  console.log('calling next shit');
   const currentView = views[__currentView];
   if (currentView.teardown) {
     await currentView.teardown();
