@@ -1,5 +1,5 @@
 import { IMatrix, Store } from 'led-matrix';
-import * as clock from './views/clock';
+import * as weather from './views/weather';
 import * as bus from './views/bus';
 
 interface View {
@@ -9,7 +9,7 @@ interface View {
   fps: number;
 }
 
-const views: View[] = [clock, bus];
+const views: View[] = [weather, bus];
 let __currentView = 0;
 let __currentLoop: any;
 
