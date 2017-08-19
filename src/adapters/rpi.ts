@@ -1,6 +1,8 @@
 import { IMatrix } from 'led-matrix';
 import { setRenderer, start, nextView } from '../runner';
+import * as http from 'http';
 
+// GPIO Button
 const rpio = require('rpio');
 const pin = 37;
 rpio.open(pin, rpio.INPUT, rpio.PULL_UP);
@@ -9,6 +11,17 @@ rpio.poll(pin, (cbpin: any) => {
     nextView();
   }
 });
+
+// Server responder
+const server = http.createServer((req, res) => {
+  if (req.method === 'POST') {
+    nextView();
+  }
+  res.statusCode = 200;
+  res.end();
+});
+
+server.listen(8000);
 
 // Create the simulator
 const LedMatrix = require('node-rpi-rgb-led-matrix');
