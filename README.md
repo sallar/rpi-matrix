@@ -2,6 +2,8 @@
 
 This repo includes code for both RaspberryPi and it's web simulator. It's possible to design the code online before uploading to the Rpi.
 
+:warning: This project is one of my hobbies and it's not meant to be taken seriously or be used in production. It comes as is without any warranties. However I would appreciate your input and as always, PRs are very welcome.
+
 ![](rpi.gif)
 
 ## Requirements
