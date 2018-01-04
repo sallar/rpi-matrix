@@ -2,7 +2,7 @@
 
 This repo includes code for both RaspberryPi and it's web simulator. It's possible to design the code online before uploading to the Rpi.
 
-_Work in Progress_
+![](rpi.gif)
 
 ## Requirements
 
@@ -19,10 +19,6 @@ _Work in Progress_
 * [Connect the LED Matrix to the RaspberryPi](https://github.com/hzeller/rpi-rgb-led-matrix/blob/master/wiring.md)
 * [Install latest NodeJS version on your RaspberryPi](https://github.com/sdesalas/node-pi-zero)
 * Install the [Unix Service](scripts/rpi.service) on your RaspberryPi [using this guide](https://www.digitalocean.com/community/tutorials/how-to-use-systemctl-to-manage-systemd-services-and-units)
-
-![](rpi.gif)
-
-![](rpi.jpg)
 
 ## Browser Simulation
 
