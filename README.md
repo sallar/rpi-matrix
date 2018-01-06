@@ -39,6 +39,15 @@ RPI_ADDRESS=192.168.11.5 npm run deploy
 
 This command will build the project for use in Rpi device and deploys it to the device over the local network.
 
+## Creating Views
+
+The app cycles through "views". Each view is a program that shows something on the LED. For example `clock` and `bus` are views. The user can toggle through views using the physical switch button. For creating a view, create a file in `views` folder. Each view should export these functions and properties:
+
+* `setup()` a function that returns a `Promise`. This function gets called once when the program starts.
+* `teardown()` a function that returns a `Promise`. This function gets called once when the program ends.
+* `loop()` Loop function gets called repeatedly at a rate that you specify with `fps`.
+* `fps` a properties that defines the rate at which the program calls `loop` function. Number of frames per second.
+
 ## License
 
 This software is released under the [MIT License](LICENSE)
