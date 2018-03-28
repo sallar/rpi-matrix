@@ -9,7 +9,8 @@ const styles = StyleSheet.create({
     position: 'fixed',
     left: '50%',
     top: '50%',
-    transform: 'translate(-50%, -50%)'
+    transform: 'translate(-50%, -50%)',
+    backgroundColor: 'rgba(0,0,0,.5)'
   },
   button: {
     position: 'fixed',
@@ -48,7 +49,8 @@ const led = new LedMatrix(canvas, {
   x: 32,
   y: 16,
   pixelWidth: 20,
-  pixelHeight: 20
+  pixelHeight: 20,
+  margin: 10
 });
 
 // Render
