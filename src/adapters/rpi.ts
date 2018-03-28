@@ -1,14 +1,17 @@
 import { IMatrix } from 'led-matrix';
 import { setRenderer, start, nextView } from '../runner';
 import * as http from 'http';
+import throttle = require('lodash/throttle');
 
 // GPIO Button
 const rpio = require('rpio');
 const pin = 37;
+const throttledNextView = throttle(nextView, 1500);
+
 rpio.open(pin, rpio.INPUT, rpio.PULL_UP);
 rpio.poll(pin, (cbpin: any) => {
   if (!rpio.read(cbpin)) {
-    nextView();
+    throttledNextView();
   }
 });
 
