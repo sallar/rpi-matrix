@@ -1,4 +1,4 @@
-import { IMatrix, Store, Color, TomThumb } from 'led-matrix';
+import { IMatrix, Store, Color, TomThumb } from 'matrix-display-store';
 import * as cache from 'memory-cache';
 import * as fetch from 'isomorphic-fetch';
 import { delay } from '../utils';
@@ -68,9 +68,11 @@ function drawSequence(
 }
 
 function setWeather() {
-  return fetch(url).then(res => res.json()).then((res: any) => {
-    cache.put('weather', res, ms('10m'));
-  });
+  return fetch(url)
+    .then(res => res.json())
+    .then((res: any) => {
+      cache.put('weather', res, ms('10m'));
+    });
 }
 
 export async function setup(): Promise<void> {

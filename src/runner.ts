@@ -1,4 +1,4 @@
-import { IMatrix, Store, PicoPixel, Color } from 'led-matrix';
+import { IMatrix, Store, PicoPixel, Color } from 'matrix-display-store';
 import * as weather from './views/weather';
 import * as bus from './views/bus';
 

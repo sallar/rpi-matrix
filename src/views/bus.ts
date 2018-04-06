@@ -1,4 +1,4 @@
-import { createStore, Color, OrgDot, Classic } from 'led-matrix';
+import { createStore, Color, OrgDot, Classic } from 'matrix-display-store';
 import { delay } from '../utils';
 
 const store = createStore(32, 16);
@@ -46,7 +46,10 @@ function getTopThreeStops() {
 }
 
 function getStopTimes(): Promise<any> {
-  const today = new Date().toISOString().substring(0, 10).replace(/-/g, '');
+  const today = new Date()
+    .toISOString()
+    .substring(0, 10)
+    .replace(/-/g, '');
   const query = `
   {
     stop(id: "HSL:2314223") {

@@ -1,5 +1,6 @@
 import { StyleSheet, css } from 'aphrodite';
-import { LedMatrix, IMatrix } from 'led-matrix';
+import { IMatrix } from 'matrix-display-store';
+import { LedMatrix } from 'led-matrix';
 import debounce = require('lodash/debounce');
 import { setRenderer, start, nextView } from '../runner';
 

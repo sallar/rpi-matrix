@@ -1,4 +1,4 @@
-import { IMatrix } from 'led-matrix';
+import { IMatrix } from 'matrix-display-store';
 import { setRenderer, start, nextView } from '../runner';
 import * as http from 'http';
 import throttle = require('lodash/throttle');
