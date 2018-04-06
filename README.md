@@ -48,6 +48,12 @@ The app cycles through "views". Each view is a program that shows something on t
 * `loop()` Loop function gets called repeatedly at a rate that you specify with `fps`.
 * `fps` a properties that defines the rate at which the program calls `loop` function. Number of frames per second.
 
+## Related
+
++ [matrix-display-store](https://github.com/sallar/matrix-display-store)
++ [led-matrix](https://github.com/sallar/led-matrix)
++ [led-matrix-simulator](https://github.com/sallar/led-matrix-simulator)
+
 ## License
 
 This software is released under the [MIT License](LICENSE)
