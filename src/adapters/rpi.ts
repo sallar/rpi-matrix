@@ -1,10 +1,43 @@
 import { IMatrix } from 'matrix-display-store';
-import { setRenderer, start, nextView } from '../runner';
-import * as http from 'http';
+import {
+  setRenderer,
+  start,
+  nextView,
+  getCurrentView,
+  getViews
+} from '../runner';
 import throttle = require('lodash/throttle');
 
-// GPIO Button
+const polka = require('polka');
 const rpio = require('rpio');
+
+// Http Server
+let __currentFrameData: IMatrix = [];
+
+polka()
+  .get('/api/data', (_: any, res: any) => {
+    res.end(JSON.stringify(__currentFrameData));
+  })
+  .get('/api/views', (_: any, res: any) => {
+    res.end(JSON.stringify(getViews()));
+  })
+  .get('/api/view', (_: any, res: any) => {
+    res.end(JSON.stringify(getCurrentView()));
+  })
+  .post('/api/view/:index', (req: any, res: any) => {
+    nextView(Number(req.params.index));
+    res.end('OK');
+  })
+  .post('/api/view', (_: any, res: any) => {
+    nextView();
+    res.end('OK');
+  })
+  .listen(80, (err: any) => {
+    if (err) throw err;
+    console.log(`> Running on localhost:8000`);
+  });
+
+// GPIO Button
 const pin = 37;
 const throttledNextView = throttle(nextView, 1500);
 
@@ -15,23 +48,13 @@ rpio.poll(pin, (cbpin: any) => {
   }
 });
 
-// Server responder
-const server = http.createServer((req, res) => {
-  if (req.method === 'POST') {
-    nextView();
-  }
-  res.statusCode = 200;
-  res.end();
-});
-
-server.listen(8000);
-
 // Create the simulator
 const LedMatrix = require('node-rpi-rgb-led-matrix');
 const led = new LedMatrix(16);
 
 // Render
 function render(data: IMatrix) {
+  __currentFrameData = data;
   for (let i = 0; i < data.length; i += 1) {
     const dy = Math.floor(i / 32);
     const dx = i - dy * 32;

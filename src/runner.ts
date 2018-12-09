@@ -2,11 +2,16 @@ import { IMatrix, Store, PicoPixel, Color } from 'matrix-display-store';
 import * as weather from './views/weather';
 import * as bus from './views/bus';
 
-interface View {
+export interface ViewMeta {
+  fps: number;
+  name: string;
+}
+
+export interface View {
   setup: () => Promise<any>;
   teardown?: () => Promise<any>;
   loop: () => IMatrix;
-  fps: number;
+  meta: ViewMeta;
 }
 
 const views: View[] = [weather, bus];
@@ -37,19 +42,29 @@ export function start() {
     __render(view.loop());
     __currentLoop = setInterval(() => {
       __render(view.loop());
-    }, 1000 / view.fps);
+    }, 1000 / view.meta.fps);
   });
 }
 
-export async function nextView(): Promise<void> {
+export async function nextView(viewIndex?: number): Promise<void> {
   const currentView = views[__currentView];
   if (currentView.teardown) {
     await currentView.teardown();
   }
-  __currentView++;
-  if (__currentView >= views.length) {
-    __currentView = 0;
+  if (typeof viewIndex === 'number' && viewIndex > 0) {
+    if (viewIndex > views.length - 1) {
+      return;
+    }
+    __currentView = viewIndex;
+  } else {
+    __currentView++;
+    if (__currentView >= views.length) {
+      __currentView = 0;
+    }
   }
   clearInterval(__currentLoop);
   start();
 }
+
+export const getCurrentView = () => views[__currentView].meta;
+export const getViews = () => views.map(view => view.meta);
