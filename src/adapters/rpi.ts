@@ -10,11 +10,13 @@ import throttle = require('lodash/throttle');
 
 const polka = require('polka');
 const rpio = require('rpio');
+const cors = require('cors')();
 
 // Http Server
 let __currentFrameData: IMatrix = [];
 
 polka()
+  .use(cors)
   .get('/api/data', (_: any, res: any) => {
     res.end(JSON.stringify(__currentFrameData));
   })

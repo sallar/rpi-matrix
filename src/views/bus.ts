@@ -1,4 +1,4 @@
-import { createStore, Color, Classic } from 'matrix-display-store';
+import { createStore, Color, Classic, PicoPixel } from 'matrix-display-store';
 
 const store = createStore(32, 16);
 const ms = require('ms');
@@ -84,12 +84,16 @@ export function loop() {
   store.fillScreen(null);
   const stops = getTopThreeStops();
 
-  stops.forEach((stop: any, i: number) => {
-    const { name, minutes } = stop;
-    const mins = (`${minutes}` as any).padStart(2, 0);
-    store.write(0, i * 8, name, Classic, 1, Color.hex('#58C9B9'));
-    store.write(20, i * 8, mins, Classic, 1, Color.hex('#FFFFFF'));
-  });
+  if (stops.length > 0) {
+    stops.forEach((stop: any, i: number) => {
+      const { name, minutes } = stop;
+      const mins = (`${minutes}` as any).padStart(2, 0);
+      store.write(0, i * 8, name, Classic, 1, Color.hex('#58C9B9'));
+      store.write(20, i * 8, mins, Classic, 1, Color.hex('#FFFFFF'));
+    });
+  } else {
+    store.write(2, 5, 'NO LINES', PicoPixel, 1, Color.hex('#FFFFFF'));
+  }
 
   return store.matrix;
 }
