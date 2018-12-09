@@ -1,5 +1,4 @@
-import { createStore, Color, OrgDot, Classic } from 'matrix-display-store';
-import { delay } from '../utils';
+import { createStore, Color, Classic } from 'matrix-display-store';
 
 const store = createStore(32, 16);
 const ms = require('ms');
@@ -95,4 +94,7 @@ export function loop() {
   return store.matrix;
 }
 
-export const fps = 0.05;
+export const meta = {
+  name: 'Bus Schedule',
+  fps: 0.05
+};

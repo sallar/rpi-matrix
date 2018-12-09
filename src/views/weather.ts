@@ -105,4 +105,7 @@ export function loop(): IMatrix {
   return store.matrix;
 }
 
-export const fps = 4;
+export const meta = {
+  name: 'Live Weather',
+  fps: 4
+};
