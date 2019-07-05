@@ -15,7 +15,8 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "matrix-display-store": "^1.0.0"
+    "matrix-display-store": "^1.0.0",
+    "sirv": "^0.4.2"
   },
   "devDependencies": {
     "@types/aphrodite": "^0.5.13",

@@ -1,4 +1,5 @@
 import { IMatrix } from 'matrix-display-store';
+import { join } from 'path';
 import {
   setRenderer,
   start,
@@ -9,6 +10,7 @@ import {
 import throttle = require('lodash/throttle');
 
 const polka = require('polka');
+const serve = require('sirv')('public');
 const rpio = require('rpio');
 const cors = require('cors')();
 
@@ -17,6 +19,7 @@ let __currentFrameData: IMatrix = [];
 
 polka()
   .use(cors)
+  .use(serve)
   .get('/api/data', (_: any, res: any) => {
     res.end(JSON.stringify(__currentFrameData));
   })
