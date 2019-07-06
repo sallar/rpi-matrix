@@ -16,6 +16,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "matrix-display-store": "^1.0.0",
+    "mqtt": "^3.0.0",
     "sirv": "^0.4.2"
   },
   "devDependencies": {
@@ -36,6 +37,7 @@
     "memory-cache": "^0.2.0",
     "ms": "^2.0.0",
     "polka": "^0.5.1",
+    "shebang-loader": "0.0.1",
     "ts-loader": "^2.3.1",
     "typescript": "^3.2.2",
     "url-loader": "^0.5.9",

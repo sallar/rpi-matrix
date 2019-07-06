@@ -21,7 +21,12 @@ polka()
   .use(cors)
   .use(serve)
   .get('/api/data', (_: any, res: any) => {
-    res.end(JSON.stringify(__currentFrameData));
+    res.end(
+      JSON.stringify({
+        data: __currentFrameData,
+        currentView: getCurrentView()
+      })
+    );
   })
   .get('/api/views', (_: any, res: any) => {
     res.end(JSON.stringify(getViews()));

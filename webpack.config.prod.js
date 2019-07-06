@@ -6,6 +6,9 @@ const commonConfig = require('./webpack.config');
 module.exports = Merge(commonConfig, {
   devtool: false,
   target: 'node',
+  entry: {
+    rpi: './src/adapters/rpi.ts'
+  },
   plugins: [
     new webpack.LoaderOptionsPlugin({
       minimize: true,
@@ -20,5 +23,8 @@ module.exports = Merge(commonConfig, {
       test: /^rpi.js$/,
       header: '#!/usr/bin/env node\n'
     })
-  ]
+  ],
+  externals: {
+    mqtt: 'require("mqtt")'
+  }
 });
