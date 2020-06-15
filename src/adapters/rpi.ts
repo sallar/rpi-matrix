@@ -1,18 +1,18 @@
-import { IMatrix } from 'matrix-display-store';
-import { join } from 'path';
+import { IMatrix } from "matrix-display-store";
 import {
   setRenderer,
   start,
   nextView,
   getCurrentView,
-  getViews
-} from '../runner';
-import throttle = require('lodash/throttle');
+  getViews,
+  setCTA,
+} from "../runner";
+import throttle = require("lodash/throttle");
 
-const polka = require('polka');
-const serve = require('sirv')('public');
-const rpio = require('rpio');
-const cors = require('cors')();
+const polka = require("polka");
+const serve = require("sirv")("public");
+const rpio = require("rpio");
+const cors = require("cors")();
 
 // Http Server
 let __currentFrameData: IMatrix = [];
@@ -20,27 +20,31 @@ let __currentFrameData: IMatrix = [];
 polka()
   .use(cors)
   .use(serve)
-  .get('/api/data', (_: any, res: any) => {
+  .get("/api/data", (_: any, res: any) => {
     res.end(
       JSON.stringify({
         data: __currentFrameData,
-        currentView: getCurrentView()
+        currentView: getCurrentView(),
       })
     );
   })
-  .get('/api/views', (_: any, res: any) => {
+  .get("/api/views", (_: any, res: any) => {
     res.end(JSON.stringify(getViews()));
   })
-  .get('/api/view', (_: any, res: any) => {
+  .get("/api/view", (_: any, res: any) => {
     res.end(JSON.stringify(getCurrentView()));
   })
-  .post('/api/view/:index', (req: any, res: any) => {
+  .post("/api/view/:index", (req: any, res: any) => {
     nextView(Number(req.params.index));
-    res.end('OK');
+    res.end("OK");
   })
-  .post('/api/view', (_: any, res: any) => {
+  .post("/api/view", (_: any, res: any) => {
     nextView();
-    res.end('OK');
+    res.end("OK");
+  })
+  .post("/api/cta", (_: any, res: any) => {
+    setCTA();
+    res.end("OK");
   })
   .listen(80, (err: any) => {
     if (err) throw err;
@@ -59,7 +63,7 @@ rpio.poll(pin, (cbpin: any) => {
 });
 
 // Create the simulator
-const LedMatrix = require('node-rpi-rgb-led-matrix');
+const LedMatrix = require("node-rpi-rgb-led-matrix");
 const led = new LedMatrix(16);
 
 // Render

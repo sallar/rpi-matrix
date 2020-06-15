@@ -1,14 +1,14 @@
-import { IMatrix, Store, Color, TomThumb } from 'matrix-display-store';
-import * as cache from 'memory-cache';
-import * as fetch from 'isomorphic-fetch';
-import { delay } from '../utils';
-import chunk = require('lodash/chunk');
+import { IMatrix, Store, Color, TomThumb } from "matrix-display-store";
+import * as cache from "memory-cache";
+import * as fetch from "isomorphic-fetch";
+import { delay } from "../utils";
+import chunk = require("lodash/chunk");
 
-const getPixels = require('get-pixels');
-const ms = require('ms');
+const getPixels = require("get-pixels");
+const ms = require("ms");
 
 // Read Images
-const context = (require as any).context('../images/weather', true, /.png$/);
+const context = (require as any).context("../images/weather", true, /.png$/);
 const __images: any = {};
 context.keys().forEach((key: any) => {
   const name = (key as string).substr(2, 3);
@@ -16,7 +16,7 @@ context.keys().forEach((key: any) => {
 });
 
 const url =
-  'http://api.openweathermap.org/data/2.5/weather?q=Espoo,FI&APPID=146c256a087c40880291650a75386da2&units=metric';
+  "http://api.openweathermap.org/data/2.5/weather?q=Espoo,FI&APPID=146c256a087c40880291650a75386da2&units=metric";
 const store = new Store(32, 16);
 let __image: number[][] = [];
 let __sequence = 0;
@@ -28,7 +28,7 @@ const ANIM_HEIGHT = 16;
 
 function readImage(): Promise<any> {
   return Promise.all(
-    Object.keys(__images).map(key => {
+    Object.keys(__images).map((key) => {
       return new Promise((resolve, reject) => {
         if (Array.isArray(__images[key])) {
           return resolve();
@@ -69,15 +69,15 @@ function drawSequence(
 
 function setWeather() {
   return fetch(url)
-    .then(res => res.json())
+    .then((res) => res.json())
     .then((res: any) => {
-      cache.put('weather', res, ms('10m'));
+      cache.put("weather", res, ms("10m"));
     });
 }
 
 export async function setup(): Promise<void> {
   setWeather();
-  __weatherTimer = setInterval(setWeather, ms('5m'));
+  __weatherTimer = setInterval(setWeather, ms("5m"));
   await readImage();
 }
 
@@ -87,13 +87,13 @@ export async function teardown(): Promise<void> {
 
 export function loop(): IMatrix {
   const date = new Date().toString().substring(16, 21);
-  const weather = cache.get('weather');
+  const weather = cache.get("weather");
 
   store.fillScreen(null);
-  store.write(15, 2, date, TomThumb, 1, Color.hex('#FFFFFF'));
+  store.write(15, 2, date, TomThumb, 1, Color.hex("#FFFFFF"));
 
   if (weather) {
-    const temp = `${weather.main.temp}°`;
+    const temp = `${Math.round(weather.main.temp)}°`;
     store.write(15, 8, temp, TomThumb, 1, Color.rgba(0, 255, 0));
 
     drawSequence(weather.weather[0].icon, store, -1, 0, __sequence++);
@@ -106,6 +106,6 @@ export function loop(): IMatrix {
 }
 
 export const meta = {
-  name: 'Live Weather',
-  fps: 4
+  name: "Live Weather",
+  fps: 4,
 };
