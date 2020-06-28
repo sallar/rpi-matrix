@@ -1,7 +1,6 @@
-import { IMatrix, Store, Color, TomThumb } from "matrix-display-store";
-import * as cache from "memory-cache";
 import * as fetch from "isomorphic-fetch";
-import { delay } from "../utils";
+import { Color, IMatrix, Store, TomThumb } from "matrix-display-store";
+import * as cache from "memory-cache";
 import chunk = require("lodash/chunk");
 
 const getPixels = require("get-pixels");
@@ -9,7 +8,7 @@ const ms = require("ms");
 
 // Read Images
 const context = (require as any).context("../images/weather", true, /.png$/);
-const __images: any = {};
+let __images: Record<string, any> = {};
 context.keys().forEach((key: any) => {
   const name = (key as string).substr(2, 3);
   __images[name] = context(key);
@@ -18,7 +17,6 @@ context.keys().forEach((key: any) => {
 const url =
   "http://api.openweathermap.org/data/2.5/weather?q=Espoo,FI&APPID=146c256a087c40880291650a75386da2&units=metric";
 const store = new Store(32, 16);
-let __image: number[][] = [];
 let __sequence = 0;
 let __weatherTimer: any;
 
@@ -67,12 +65,14 @@ function drawSequence(
   }
 }
 
-function setWeather() {
-  return fetch(url)
-    .then((res) => res.json())
-    .then((res: any) => {
-      cache.put("weather", res, ms("10m"));
-    });
+async function setWeather() {
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    cache.put("weather", data, ms("10m"));
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 export async function setup(): Promise<void> {
