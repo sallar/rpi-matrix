@@ -1,7 +1,7 @@
 import { IMatrix, Store, PicoPixel, Color } from "matrix-display-store";
 import * as weather from "./views/weather";
-import * as bus from "./views/bus";
-import * as temperature from "./views/temperature";
+/* import * as bus from "./views/bus";
+import * as temperature from "./views/temperature"; */
 import * as cta from "./views/cta";
 
 export interface ViewMeta {
@@ -16,7 +16,7 @@ export interface View {
   meta: ViewMeta;
 }
 
-const views: View[] = [weather, temperature, bus, cta];
+const views: View[] = [weather, /* temperature, bus, */ cta];
 let __currentView = 0;
 let __currentLoop: any;
 

@@ -27,7 +27,7 @@ const ANIM_HEIGHT = 16;
 function readImage(): Promise<any> {
   return Promise.all(
     Object.keys(__images).map((key) => {
-      return new Promise((resolve, reject) => {
+      return new Promise<void>((resolve, reject) => {
         if (Array.isArray(__images[key])) {
           return resolve();
         }
